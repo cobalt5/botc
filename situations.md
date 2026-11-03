@@ -29,8 +29,8 @@ A state claim at $(t, k)$ is the state when the ability at position $k$ resolves
 |Redherring(A, t)|Player A is the redherring at time t<br> **Note that redherring status can change.**<br>**Note that Redherring(A, t) $\rightarrow$ Align(A, Good, t).**|
 |Registers(A, M, t)|Player A registers as alignment M to the ability resolving at time t<br>**Note that $(\text{Align}(A, \text{Evil}, t) \land \neg\text{Role}(A, \text{Spy}, t)) \rightarrow \text{Registers}(A, \text{Evil}, t)$.**<br>**Note that $(\text{Align}(A, \text{Good}, t) \land \neg\text{Role}(A, \text{Recluse}, t)) \rightarrow \neg\text{Registers}(A, \text{Evil}, t)$.**<br>**The Spy and Recluse may register as either alignment.**|
 |Executed(A, t)| Player A was executed on day t|
-|Protected(A, (t, k)) | Player A is protected from death(Innkeeper, Tea lady) <br> **Note that Protected(A, (t, k)) $\rightarrow$ Protected(A, (t, k+1))**|
-|Safe(A, (t, k)) | Player A is safe from all demon effects (Monk) <br> **Note that Safe(A, (t, k)) $\rightarrow$ Safe(A, (t, k+1))**|
+|Protected(A, (t, k)) | Player A is protected from death(Innkeeper, Tea lady) <br> **Note that Protected(A, (t, k)) $\rightarrow$ Protected(A, (t, k+1)), up until the role offering protection is killed, or modified**|
+|Safe(A, (t, k)) | Player A is safe from all demon effects (Monk) <br> **Note that Safe(A, (t, k)) $\rightarrow$ Safe(A, (t, k+1)), up until the role offering protection is killed, or modified**|
 
 
 Refer to [nightorder.json](nightorder.json) for the night order
