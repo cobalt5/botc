@@ -8,8 +8,9 @@
 
 ### Assumptions
 1. All players of good alignment are honest. In a normal game, this means that it is the last day.
-2. No travelers
-3. No other Lorics, Fabled, etc, only vanilla botc.
+2. As an extension of 1. There is no Politician in play, or there is a politician who aims to work for Good.
+3. As an extension of 1. There is no Damsel in play, or there is a Damsel in play but all minions are dead/skeptical.
+4. No travelers, Lorics, Fabled, etc.
 
 ### Implementation
 
@@ -27,12 +28,15 @@ This solver will condense all (and I mean ALL) roles into sets of 'statements'. 
 
 | Statement | Explanation| 
 | -------- | -------- | 
-| Role(p, r, t) | Player 'p' has role 'r' at day 't' | 
-| Align(p, a, t)  | Player 'p' has alignment 'a' at day 't' where alignment is Good or Evil |
-| Sober(p, t) | Player 'p' is free from drunkeness & poison on day 't'
+| Role(p, r, t) | Player 'p' has role 'r' at time 't' | 
+| Align(p, a, t)  | Player 'p' has alignment 'a' at time 't' where alignment is Good or Evil |
+| Sober(p, t) | Player 'p' is free from drunkeness & poison at time 't'
 | Died(p, t) | Player 'p' died on night 't'
 | Executed(p, t) | Player 'p' was execute on day 't'
-| Chose(p, x, t) | Player 'p' chose player 'x' on night/day 't'
+| Chose(p, x, t) | Player 'p' chose player 'x' at time 't'
+| Count(p) = N| There are N cases of condition p
+
+Time 't' is a pair (night, night-order position); see the Time section of situations.md.
 
 We need more, for roles like Spy and Recluse registering different information, as well as Fortune Teller red herring, and vortox absolute false.
 
