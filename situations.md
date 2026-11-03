@@ -28,7 +28,9 @@ A state claim at $(t, k)$ is the state when the ability at position $k$ resolves
 |Chose(A, B, t) | Player A chose B at time t|
 |Redherring(A, t)|Player A is the redherring at time t<br> **Note that redherring status can change.**<br>**Note that Redherring(A, t) $\rightarrow$ Align(A, Good, t).**|
 |Registers(A, M, t)|Player A registers as alignment M to the ability resolving at time t<br>**Note that $(\text{Align}(A, \text{Evil}, t) \land \neg\text{Role}(A, \text{Spy}, t)) \rightarrow \text{Registers}(A, \text{Evil}, t)$.**<br>**Note that $(\text{Align}(A, \text{Good}, t) \land \neg\text{Role}(A, \text{Recluse}, t)) \rightarrow \neg\text{Registers}(A, \text{Evil}, t)$.**<br>**The Spy and Recluse may register as either alignment.**|
-|Executed(A, t)| Player A was executed on day t
+|Executed(A, t)| Player A was executed on day t|
+|Protected(A, (t, k)) | Player A is protected from death(Innkeeper, Tea lady) <br> **Note that Protected(A, (t, k)) $\rightarrow$ Protected(A, (t, k+1))**|
+|Safe(A, (t, k)) | Player A is safe from all demon effects (Monk) <br> **Note that Safe(A, (t, k)) $\rightarrow$ Safe(A, (t, k+1))**|
 
 
 Refer to [nightorder.json](nightorder.json) for the night order
@@ -45,3 +47,4 @@ Refer to [nightorder.json](nightorder.json) for the night order
 | A claims Fortune Teller, chosses B and C, sees No | $(\text{Sober}(A, (t, k_{\text{Fortune Teller}})) \land \text{Align}(A, \text{Good}, (t, k_{\text{Fortune Teller}})))  \rightarrow (\neg\text{Role}(B, \text{Demon}, (t, k_{\text{Fortune Teller}})) \land \neg\text{Role}(C, \text{Demon}, (t, k_{\text{Fortune Teller}})) \land \neg\text{Redherring}(B, (t, k_{\text{Fortune Teller}})) \land \neg\text{Redherring}(C, (t, k_{\text{Fortune Teller}})))$ |
 | A claims Undertaker, see's role R (Good) | check day t-1 to find Executed(B, t-1) and find player B<br>$(\text{Sober}(A, (t, k_{\text{Undertaker}})) \land \text{Align}(A, \text{Good}, (t, k_{\text{Undertaker}})))\rightarrow \text{Role}(B, R, t-1) \lor \text{Role}(B, \text{Spy}, t-1)$<br> Note: the undertaker sees the role immediately after execution, the information the undertaker receives is not affected by roles like pithag or barber.|
 | A claims Undertaker, see's role R (Evil), B was executed ysterday | $(\text{Sober}(A, (t, k_{\text{Undertaker}})) \land \text{Align}(A, \text{Good}, (t, k_{\text{Undertaker}})))\rightarrow\text{Role(B, R, t-1)}\lor\text{Role}(B, \text{Recluse}, t-1)$|
+| A claims Monk, chose B on night t| $(\text{Sober}(A, (t, k_{\text{Monk}})) \land \text{Align}(A, \text{Good}, (t, k_{\text{Monk}})))\rightarrow\text{Safe}(B, (t, k_{\text{Monk}}))$ <br> **Note: works regardless of alignment of B**|
