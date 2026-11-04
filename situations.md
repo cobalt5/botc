@@ -18,6 +18,7 @@ A state claim at $(t, k)$ is the state when the ability at position $k$ resolves
 | A $\lor $ B| A OR B|
 | A $\oplus $ B| A XOR B|
 | A $\rightarrow $ B| If A, then B|
+|Count(C) | There are Count(C) instances of C|
 
 |Claim|Meaning|
 | :--- | :---: |
@@ -29,19 +30,77 @@ A state claim at $(t, k)$ is the state when the ability at position $k$ resolves
 |Redherring(A, t)|Player A is the redherring at time t<br> **Note that redherring status can change.**<br>**Note that Redherring(A, t) $\rightarrow$ Align(A, Good, t).**|
 |Registers(A, M, t)|Player A registers as alignment M to the ability resolving at time t<br>**Note that $(\text{Align}(A, \text{Evil}, t) \land \neg(\text{Role}(A, \text{Spy}, t) \land \text{Sober}(A, t))) \rightarrow \text{Registers}(A, \text{Evil}, t)$.**<br>**Note that $(\text{Align}(A, \text{Good}, t) \land \neg(\text{Role}(A, \text{Recluse}, t) \land \text{Sober}(A, t))) \rightarrow \neg\text{Registers}(A, \text{Evil}, t)$.**<br>**A sober Spy or Recluse may register as either alignment.**|
 |Executed(A, t)| Player A was executed on day t|
-|Night_Protected(A, (t, k)) | Player A is protected from death at night(Innkeeper) <br> **Note that Protected(A, (t, k)) $\rightarrow$ Protected(A, (t, k+1)), up until the role offering protection is killed, or modified**|
+|Night_Protected(A, (t, k)) | Player A is protected from death at night(Innkeeper) <br> **Note that Night_Protected(A, (t, k)) $\rightarrow$ Night_Protected(A, (t, k+1)), up until the role offering protection is killed, or modified**|
 |Protected(A, t) | Player A is protected from death, period. (Tea Lady) <br> **Note that Protected(A, (t, k)) $\rightarrow$ Protected(A, (t, k+1)), up until the role offering protection is killed, or modified**|
-|Exec_Protected(A, t) | Player A is protected from execution(Devil's advocate, Tea Lady) <br> **Note that Protected(A, (t, k)) $\rightarrow$ Protected(A, (t, k+1)), up until the role offering protection is killed, or modified**|q
+|Exec_Protected(A, t) | Player A is protected from execution(Devil's advocate, Tea Lady) <br> **Note that Exec_Protected(A, (t, k)) $\rightarrow$ Exec_Protected(A, (t, k+1)), up until the role offering protection is killed, or modified**|
 |Safe(A, (t, k)) | Player A is safe from all demon effects (Monk) <br> **Note that Safe(A, (t, k)) $\rightarrow$ Safe(A, (t, k+1)), up until the role offering protection is killed, or modified**|
 |Townsfolk(A, t) | Player A is a townsfolk at time t|
+|Outsider(A, t) | Player A is an outsider at time t|
+|Minion(A, t) | Player A is a minion at time t|
 |Demon (A, t) | Player A is a demon at time t|
+|PlayerCount(N) | There are N players in the game|
+|TownsfolkChanged(N) | There are +N extra townsfolk <br>**Note that N can be negative**|
+|OutsidersChanged(N) | There are +N extra outsiders|
+|MinionsChanged(N) | There are +N extra minions|
+|DemonsChanged(N) | There are +N extra demons|
 
 
 Refer to [nightorder.json](nightorder.json) for the night order
+
+### Setup situations
+Let num_townsfolk = number of townsfolk
+Let num_outsiders = number of outsiders
+Let num_minions = number of minions
+Let num_demons = number of demons
+
+**Setup Player Counts**
+| Situation | Statement |
+| :--- | :---: |
+|There are 5 players|$\text{PlayerCount}(5) \land \text{num\_townsfolk = 3} \land\text{num\_outsiders = 0} \land \text{num\_minions = 1} \land \text{num\_demons} = 1$|
+|There are 6 players|$\text{PlayerCount}(6) \land \text{num\_townsfolk = 3} \land\text{num\_outsiders = 1} \land \text{num\_minions = 1} \land \text{num\_demons} = 1$|
+|There are 7 players|$\text{PlayerCount}(7) \land \text{num\_townsfolk = 5} \land\text{num\_outsiders = 0} \land \text{num\_minions = 1} \land \text{num\_demons} = 1$|
+|There are 8 players|$\text{PlayerCount}(8) \land \text{num\_townsfolk = 5} \land\text{num\_outsiders = 1} \land \text{num\_minions = 1} \land \text{num\_demons} = 1$|
+|There are 9 players|$\text{PlayerCount}(9) \land \text{num\_townsfolk = 5} \land\text{num\_outsiders = 2} \land \text{num\_minions = 1} \land \text{num\_demons} = 1$|
+|There are 10 players|$\text{PlayerCount}(10) \land \text{num\_townsfolk = 7} \land\text{num\_outsiders = 0} \land \text{num\_minions = 2} \land \text{num\_demons} = 1$|
+|There are 11 players|$\text{PlayerCount}(11) \land \text{num\_townsfolk = 7} \land\text{num\_outsiders = 1} \land \text{num\_minions = 2} \land \text{num\_demons} = 1$|
+|There are 12 players|$\text{PlayerCount}(12) \land \text{num\_townsfolk = 7} \land\text{num\_outsiders = 2} \land \text{num\_minions = 2} \land \text{num\_demons} = 1$|
+|There are 13 players|$\text{PlayerCount}(13) \land \text{num\_townsfolk = 9} \land\text{num\_outsiders = 0} \land \text{num\_minions = 3} \land \text{num\_demons} = 1$|
+|There are 14 players|$\text{PlayerCount}(14) \land \text{num\_townsfolk = 9} \land\text{num\_outsiders = 1} \land \text{num\_minions = 3} \land \text{num\_demons} = 1$|
+|There are 15 players|$\text{PlayerCount}(15) \land \text{num\_townsfolk = 9} \land\text{num\_outsiders = 2} \land \text{num\_minions = 3} \land \text{num\_demons} = 1$|
+|Baron is on the script|$\text{Role}(A, \text{Baron}, 1)\rightarrow\text(\text{num\_townsfolk}=\text{num\_townsfolk}-2) \land (\text{num\_outsiders}=\text{num\_outsiders}+2)$<br> For all players A|
+
+**Setup Modifiers**
+| Situation | Statement |
+| :--- | :---: |
+|Baron is on the script|$\text{Role}(A, \text{Baron}, 1)\rightarrow\text(\text{num\_townsfolk}=\text{num\_townsfolk}-2) \land (\text{num\_outsiders}=\text{num\_outsiders}+2)$<br> For all players A|
+
+### Structural Invariants
+These hold in every possible world, for all players $A$, $B$ and all times $t$ (day or $(t, k)$), unless a row says otherwise.<br>
+Let $\mathcal{T}, \mathcal{O}, \mathcal{M}, \mathcal{D}$ be the sets of Townsfolk, Outsider, Minion and Demon characters on the script, and $\mathcal{P}$ the set of players.<br>
+Setup time is $(1, 0)$: after the grimoire is built, before the first position of night 1.
+
+| Invariant | Statement |
+| :--- | :---: |
+|Every player has exactly one role|$\bigvee_{R} \text{Role}(A, R, t) \land \left(\text{Role}(A, R_1, t) \land \text{Role}(A, R_2, t) \rightarrow R_1 = R_2\right)$|
+|No two players share a role|$\text{Role}(A, R, t) \land \text{Role}(B, R, t) \rightarrow A = B$|
+|Townsfolk defined by role|$\text{Townsfolk}(A, t) \leftrightarrow \bigvee_{R \in \mathcal{T}} \text{Role}(A, R, t)$|
+|Outsider defined by role|$\text{Outsider}(A, t) \leftrightarrow \bigvee_{R \in \mathcal{O}} \text{Role}(A, R, t)$|
+|Minion defined by role|$\text{Minion}(A, t) \leftrightarrow \bigvee_{R \in \mathcal{M}} \text{Role}(A, R, t)$|
+|Demon defined by role|$\text{Demon}(A, t) \leftrightarrow \bigvee_{R \in \mathcal{D}} \text{Role}(A, R, t)$|
+|Every player has exactly one type|$[\text{Townsfolk}(A, t)] + [\text{Outsider}(A, t)] + [\text{Minion}(A, t)] + [\text{Demon}(A, t)] = 1$ <br> **Follows from the rows above, since $\mathcal{T}, \mathcal{O}, \mathcal{M}, \mathcal{D}$ are disjoint; listed so a solver can use it directly.**|
+|Every player has exactly one alignment|$\text{Align}(A, \text{Good}, t) \oplus \text{Align}(A, \text{Evil}, t)$|
+|Setup type counts|$\text{Count}(\{A : \text{Townsfolk}(A, (1, 0))\}) = \text{num\_townsfolk}$ <br> $\text{Count}(\{A : \text{Outsider}(A, (1, 0))\}) = \text{num\_outsiders}$ <br> $\text{Count}(\{A : \text{Minion}(A, (1, 0))\}) = \text{num\_minions}$ <br> $\text{Count}(\{A : \text{Demon}(A, (1, 0))\}) = \text{num\_demons}$ <br> **Uses the counts after setup modifiers (e.g. Baron) are applied.**|
+|Counts sum to the player count|$\text{PlayerCount}(N) \rightarrow \text{num\_townsfolk} + \text{num\_outsiders} + \text{num\_minions} + \text{num\_demons} = N = \lvert\mathcal{P}\rvert$|
+|Starting alignment (Good)|$\left(\text{Townsfolk}(A, (1, 0)) \lor \text{Outsider}(A, (1, 0))\right) \rightarrow \text{Align}(A, \text{Good}, (1, 0))$|
+|Starting alignment (Evil)|$\left(\text{Minion}(A, (1, 0)) \lor \text{Demon}(A, (1, 0))\right) \rightarrow \text{Align}(A, \text{Evil}, (1, 0))$ <br> **Alignment can change later (e.g. Snake Charmer, Goon); this only fixes it at setup.**|
+|At most one Red Herring|$\text{Redherring}(A, t) \land \text{Redherring}(B, t) \rightarrow A = B$|
+|Red Herring exists if a Fortune Teller is in play|$\left(\bigvee_{A \in \mathcal{P}} \text{Role}(A, \text{Fortune Teller}, (1, 0))\right) \rightarrow \bigvee_{B \in \mathcal{P}} \text{Redherring}(B, (1, 0))$|
+|At most one execution per day|$\text{Executed}(A, t) \land \text{Executed}(B, t) \rightarrow A = B$|
+
+### Role-Event situations
 #### Note: 'A' claims ROLE means player 'A' is claming role ROLE
 | Situation | Statement |
 | :--- | :---: |
-|B is executed on day t|$\text{Executed}(B, t)$|
 | A claims Washerwoman | $(\text{Sober}(A, (1, k_{\text{Washerwoman}})) \land \text{Align}(A, \text{Good}, (1, k_{\text{Washerwoman}}))) \rightarrow ((\text{Role}(B, R, (1, k_{\text{Washerwoman}})) \oplus \text{Role}(C, R, (1, k_{\text{Washerwoman}}))) \lor (\text{Role}(B, \text{Spy}, (1, k_{\text{Washerwoman}})) \land \text{Sober}(B, (1, k_{\text{Washerwoman}}))) \lor (\text{Role}(C, \text{Spy}, (1, k_{\text{Washerwoman}})) \land \text{Sober}(C, (1, k_{\text{Washerwoman}}))))$ <br>Note: $k_{\text{Washerwoman}}$ = 42, refer to [nightorder.json](nightorder.json)|
 | A claims Librarian | $(\text{Sober}(A, (1, k_{\text{Librarian}})) \land \text{Align}(A, \text{Good}, (1, k_{\text{Librarian}}))) \rightarrow ((\text{Role}(B, R, (1, k_{\text{Librarian}})) \oplus \text{Role}(C, R, (1, k_{\text{Librarian}})))  \lor(\text{Role}(B, \text{Spy}, (1, k_{\text{Librarian}})) \land \text{Sober}(B, (1, k_{\text{Librarian}}))) \lor (\text{Role}(C, \text{Spy}, (1, k_{\text{Librarian}})) \land \text{Sober}(C, (1, k_{\text{Librarian}}))))$  |
 | A claims Investigator | $(\text{Sober}(A, (1, k_{\text{Investigator}})) \land \text{Align}(A, \text{Good}, (1, k_{\text{Investigator}}))) \rightarrow ((\text{Role}(B, R, (1, k_{\text{Investigator}})) \oplus \text{Role}(C, R, (1, k_{\text{Investigator}}))) \lor (\text{Role}(B, \text{Recluse}, (1, k_{\text{Investigator}})) \land \text{Sober}(B, (1, k_{\text{Investigator}}))) \lor (\text{Role}(C, \text{Recluse}, (1, k_{\text{Investigator}})) \land \text{Sober}(C, (1, k_{\text{Investigator}}))))$ |
