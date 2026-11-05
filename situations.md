@@ -39,40 +39,28 @@ A state claim at $(t, k)$ is the state when the ability at position $k$ resolves
 |Minion(A, t) | Player A is a minion at time t|
 |Demon (A, t) | Player A is a demon at time t|
 |PlayerCount(N) | There are N players in the game|
-|TownsfolkChanged(N) | There are +N extra townsfolk <br>**Note that N can be negative**|
-|OutsidersChanged(N) | There are +N extra outsiders|
-|MinionsChanged(N) | There are +N extra minions|
-|DemonsChanged(N) | There are +N extra demons|
+|BaseCount(G, N) | The base number of players of type G (e.g. Townsfolk) is N|
+|InPlay(R) | Role R is assigned to some player at setup (setup time is $=(1,0)$)|
+|Mod(R, G, d) | Role R changes the setup count of type G by d <br> **Note that d can be negative, and every pair (R, G) has exactly one d (0 if R changes Nothing)**<br>**This rule is here due to some roles being able to change group counts by undetermined amounts (e.g. Godfather)**|
 
 
 Refer to [nightorder.json](nightorder.json) for the night order
 
 ### Setup situations
-Let num_townsfolk = number of townsfolk
-Let num_outsiders = number of outsiders
-Let num_minions = number of minions
-Let num_demons = number of demons
 
 **Setup Player Counts**
 | Situation | Statement |
 | :--- | :---: |
-|There are 5 players|$\text{PlayerCount}(5) \land \text{num\_townsfolk = 3} \land\text{num\_outsiders = 0} \land \text{num\_minions = 1} \land \text{num\_demons} = 1$|
-|There are 6 players|$\text{PlayerCount}(6) \land \text{num\_townsfolk = 3} \land\text{num\_outsiders = 1} \land \text{num\_minions = 1} \land \text{num\_demons} = 1$|
-|There are 7 players|$\text{PlayerCount}(7) \land \text{num\_townsfolk = 5} \land\text{num\_outsiders = 0} \land \text{num\_minions = 1} \land \text{num\_demons} = 1$|
-|There are 8 players|$\text{PlayerCount}(8) \land \text{num\_townsfolk = 5} \land\text{num\_outsiders = 1} \land \text{num\_minions = 1} \land \text{num\_demons} = 1$|
-|There are 9 players|$\text{PlayerCount}(9) \land \text{num\_townsfolk = 5} \land\text{num\_outsiders = 2} \land \text{num\_minions = 1} \land \text{num\_demons} = 1$|
-|There are 10 players|$\text{PlayerCount}(10) \land \text{num\_townsfolk = 7} \land\text{num\_outsiders = 0} \land \text{num\_minions = 2} \land \text{num\_demons} = 1$|
-|There are 11 players|$\text{PlayerCount}(11) \land \text{num\_townsfolk = 7} \land\text{num\_outsiders = 1} \land \text{num\_minions = 2} \land \text{num\_demons} = 1$|
-|There are 12 players|$\text{PlayerCount}(12) \land \text{num\_townsfolk = 7} \land\text{num\_outsiders = 2} \land \text{num\_minions = 2} \land \text{num\_demons} = 1$|
-|There are 13 players|$\text{PlayerCount}(13) \land \text{num\_townsfolk = 9} \land\text{num\_outsiders = 0} \land \text{num\_minions = 3} \land \text{num\_demons} = 1$|
-|There are 14 players|$\text{PlayerCount}(14) \land \text{num\_townsfolk = 9} \land\text{num\_outsiders = 1} \land \text{num\_minions = 3} \land \text{num\_demons} = 1$|
-|There are 15 players|$\text{PlayerCount}(15) \land \text{num\_townsfolk = 9} \land\text{num\_outsiders = 2} \land \text{num\_minions = 3} \land \text{num\_demons} = 1$|
-|Baron is on the script|$\text{Role}(A, \text{Baron}, 1)\rightarrow\text(\text{num\_townsfolk}=\text{num\_townsfolk}-2) \land (\text{num\_outsiders}=\text{num\_outsiders}+2)$<br> For all players A|
+|There are 5 players|$\text{PlayerCount}(5) \land \text{BaseCount}(\text{Townsfolk}, 3)\land \text{BaseCount}(\text{Outsider}, 0)\land \text{BaseCount}(\text{Minion}, 1)\land \text{BaseCount}(\text{Demon}, 1)$|
 
 **Setup Modifiers**
 | Situation | Statement |
 | :--- | :---: |
-|Baron is on the script|$\text{Role}(A, \text{Baron}, 1)\rightarrow\text(\text{num\_townsfolk}=\text{num\_townsfolk}-2) \land (\text{num\_outsiders}=\text{num\_outsiders}+2)$<br> For all players A|
+|Baron|$\text{InPlay}(\text{Baron}) \rightarrow \text{Mod}(\text{Baron}, \text{Outsider}, +2) \land \text{Mod}(\text{Baron}, \text{Townsfolk}, -2)$|
+|Godfather|$\text{InPlay}(\text{Godfather}) \rightarrow (\text{Mod}(\text{Godfather}, \text{Outsider}, +1) \land \text{Mod}(\text{Godfather}, \text{Townsfolk}, -1)) \oplus (\text{Mod}(\text{Godfather}, \text{Outsider}, -1) \land \text{Mod}(\text{Godfather}, \text{Townsfolk}, +1))$|
+|Fang Gu|$\text{InPlay}(\text{Fang Gu}) \rightarrow \text{Mod}(\text{Fang Gu}, \text{Outsider}, +1) \land \text{Mod}(\text{Fang Gu}, \text{Townsfolk}, -1)$|
+|Vigormortis|$\text{InPlay}(\text{Vigormortis}) \rightarrow \text{Mod}(\text{Vigormortis}, \text{Outsider}, -1) \land \text{Mod}(\text{Vigormortis}, \text{Townsfolk}, +1)$|
+|Balloonist|$\text{InPlay}(\text{Balloonist}) \rightarrow (\text{Mod}(\text{Balloonist}, \text{Outsider}, 0) \land \text{Mod}(\text{Balloonist}, \text{Townsfolk}, 0)) \oplus (\text{Mod}(\text{Balloonist}, \text{Outsider}, +1) \land \text{Mod}(\text{Balloonist}, \text{Townsfolk}, -1))$|
 
 ### Structural Invariants
 These hold in every possible world, for all players $A$, $B$ and all times $t$ (day or $(t, k)$), unless a row says otherwise.<br>
@@ -89,8 +77,13 @@ Setup time is $(1, 0)$: after the grimoire is built, before the first position o
 |Demon defined by role|$\text{Demon}(A, t) \leftrightarrow \bigvee_{R \in \mathcal{D}} \text{Role}(A, R, t)$|
 |Every player has exactly one type|$[\text{Townsfolk}(A, t)] + [\text{Outsider}(A, t)] + [\text{Minion}(A, t)] + [\text{Demon}(A, t)] = 1$ <br> **Follows from the rows above, since $\mathcal{T}, \mathcal{O}, \mathcal{M}, \mathcal{D}$ are disjoint; listed so a solver can use it directly.**|
 |Every player has exactly one alignment|$\text{Align}(A, \text{Good}, t) \oplus \text{Align}(A, \text{Evil}, t)$|
-|Setup type counts|$\text{Count}(\{A : \text{Townsfolk}(A, (1, 0))\}) = \text{num\_townsfolk}$ <br> $\text{Count}(\{A : \text{Outsider}(A, (1, 0))\}) = \text{num\_outsiders}$ <br> $\text{Count}(\{A : \text{Minion}(A, (1, 0))\}) = \text{num\_minions}$ <br> $\text{Count}(\{A : \text{Demon}(A, (1, 0))\}) = \text{num\_demons}$ <br> **Uses the counts after setup modifiers (e.g. Baron) are applied.**|
-|Counts sum to the player count|$\text{PlayerCount}(N) \rightarrow \text{num\_townsfolk} + \text{num\_outsiders} + \text{num\_minions} + \text{num\_demons} = N = \lvert\mathcal{P}\rvert$|
+|In play defined by setup|$\text{InPlay}(R) \leftrightarrow \bigvee_{A \in \mathcal{P}} \text{Role}(A, R, (1, 0))$ <br> **Only setup counts: a Baron created later (e.g. Pit-Hag) does not change type counts.**|
+|One modifier per role and type|$\text{Mod}(R, G, d_1) \land \text{Mod}(R, G, d_2) \rightarrow d_1 = d_2$|
+|Modifiers default to zero|$\neg\text{InPlay}(R) \rightarrow \text{Mod}(R, G, 0)$, and $\text{Mod}(R, G, 0)$ for every $R$ that has no Setup Modifier row|
+|Modifiers preserve player count|$\sum_{G \in \mathcal{G}} \delta(R, G) = 0$ <br> **A check on the modifier rows: a modifier moves players between types, never adds or removes them.**|
+|Setup type counts|$\text{BaseCount}(G, b) \rightarrow \text{Count}(\{A : G(A, (1, 0))\}) = b + \sum_{R} \delta(R, G)$|
+|Base counts sum to the player count|$\text{PlayerCount}(N) \rightarrow \sum_{G \in \mathcal{G}} b_G = N = \lvert\mathcal{P}\rvert$, where $\text{BaseCount}(G, b_G)$|
+|There must be nonnegative group sizes at all times||
 |Starting alignment (Good)|$\left(\text{Townsfolk}(A, (1, 0)) \lor \text{Outsider}(A, (1, 0))\right) \rightarrow \text{Align}(A, \text{Good}, (1, 0))$|
 |Starting alignment (Evil)|$\left(\text{Minion}(A, (1, 0)) \lor \text{Demon}(A, (1, 0))\right) \rightarrow \text{Align}(A, \text{Evil}, (1, 0))$ <br> **Alignment can change later (e.g. Snake Charmer, Goon); this only fixes it at setup.**|
 |At most one Red Herring|$\text{Redherring}(A, t) \land \text{Redherring}(B, t) \rightarrow A = B$|
