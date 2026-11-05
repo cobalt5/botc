@@ -1,0 +1,17 @@
+Connect good players' claims to their roles
+===========================================
+
+PROBLEM
+The claim rows only require Sober and Good. Nothing connects a claim to
+Role(A, claimed role), so the rules allow a Good player to claim a role
+they don't have. example.md has to assume this rule to be solvable
+("Good players claim truthfully").
+
+CHANGE (situations.md)
+Add a Claims(A, R) predicate and an invariant along the lines of:
+    Align(A, Good, (1, 0)) and Claims(A, R)
+        -> Role(A, R, (1, 0)) or (Role(A, Drunk, (1, 0)) and R in T
+                                   and not InPlay(R))
+The Drunk needs its own case: it believes it is a Townsfolk that is not
+in play. Decide whether this is an invariant (always assumed) or a
+per-game assumption, since real good players can bluff.

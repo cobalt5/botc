@@ -1,0 +1,20 @@
+Fix the Chef row to count every adjacent pair
+=============================================
+
+PROBLEM
+The Chef row in situations.md counts only "pairs of neighbours (B, C) not
+including the chef". The real Chef counts every pair of adjacent evil
+players, including pairs with the Chef in them.
+
+It made no difference in example.md, because a Good, sober Chef never
+registers as evil, so no pair with the Chef in it counts. It is still
+wrong as a statement of the ability. It gives wrong answers whenever the
+Chef can register as evil, for example an evil player claiming Chef, or a
+Good Chef whose alignment has changed.
+
+CHANGE (situations.md, "A claims Chef, sees N")
+Replace "for all pairs of neighbours (B, C) not including the chef" with
+"for all pairs of adjacent players (B, C)". Optionally write the count
+formally:
+    sum over adjacent (B, C) of
+        [Registers(B, Evil, (1, k_Chef)) and Registers(C, Evil, (1, k_Chef))] = N

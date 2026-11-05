@@ -1,0 +1,19 @@
+Add a Dead/Alive predicate
+==========================
+
+PROBLEM
+There is no predicate for whether a player is alive. In example.md these
+were worked out by hand:
+  - the Empath's "nearest alive neighbours" on night 2 (D executed day 1,
+    C killed at (2, 30))
+  - the Ravenkeeper only waking because C died at night
+  - D not being the Imp because the game continued after day 1
+
+CHANGE (situations.md)
+Add Alive(A, t) and Died(A, t), plus rules linking them:
+    Executed(A, t) -> not Alive(A, (t+1, 1))
+    death at (t, k) -> not Alive(A, next(t, k))
+    not Alive stays not Alive (until revived, which Trouble Brewing never does)
+Then rewrite the Empath row's "nearest alive neighbours" as a formal
+condition, and condition the Ravenkeeper row on Died(A, (t, k)) for some
+k < k_Ravenkeeper. Needs next() from role-persistence.txt.

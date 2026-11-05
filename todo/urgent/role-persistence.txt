@@ -1,0 +1,30 @@
+Connect roles and alignment across time
+=======================================
+
+PROBLEM
+Nothing connects a player's role at one time to their role at a later time.
+Role(A, R, (1, 0)) says nothing about Role(A, R, (2, k)). The setup counts
+are correct, but in example.md the night 1 statements (at (1, 44), (1, 45),
+(1, 46)) and the night 2 statements (at (2, 64), (2, 65)) are not linked to
+setup or to each other. example.md has to assume "roles do not change".
+
+The Pit-Hag is out of scope for now. Trouble Brewing still has two role
+changes of its own: the Imp killing itself to pass the Demon to a Minion,
+and the Scarlet Woman becoming the Imp when the Demon dies with 5 or more
+players alive. The temporary invariant in step 2 is enough to start, but
+full Trouble Brewing needs those two RoleChanged causes.
+
+CHANGE (situations.md)
+1. Add a "next" function to the Time section:
+       next(t, k) = (t, k+1) for k < last position of night t
+       next(t, last) = (t, D)
+       next(t, D) = (t+1, 1)
+   The Protected/Safe notes ("(t, k) -> (t, k+1)") can then use next too.
+2. Add a temporary invariant: roles and alignment do not change.
+       Role(A, R, tau) -> Role(A, R, next(tau))
+       Align(A, M, tau) -> Align(A, M, next(tau))
+   Add a note: "Temporary. To be replaced by a persistence axiom plus
+   RoleChanged causes (Imp star-pass and Scarlet Woman in Trouble Brewing;
+   Pit-Hag, Snake Charmer, Barber and others later)."
+3. Later, when roles can change: make InPlay time-indexed, InPlay(R, tau),
+   with setup modifiers using InPlay(R, (1, 0)).

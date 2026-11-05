@@ -1,0 +1,16 @@
+(Optional) Add the Hermit setup modifier
+========================================
+
+PROBLEM
+Only needed for scripts other than Trouble Brewing. The Hermit's setup
+modifier is [-0 or -1 Outsider] and is not in Setup Modifiers yet.
+
+CHANGE (situations.md, Setup Modifiers)
+Add a row in the same style as the Balloonist:
+    |Hermit|$\text{InPlay}(\text{Hermit}) \rightarrow (\text{Mod}(\text{Hermit}, \text{Outsider}, 0) \land \text{Mod}(\text{Hermit}, \text{Townsfolk}, 0)) \oplus (\text{Mod}(\text{Hermit}, \text{Outsider}, -1) \land \text{Mod}(\text{Hermit}, \text{Townsfolk}, +1))$|
+
+WATCH OUT
+The Hermit is an Outsider itself. With the -1 option and 0 base Outsiders,
+the Hermit's own slot makes the setup impossible, so the -1 option can only
+apply when the base count leaves room for it. Connected to
+nonnegative-counts.txt.

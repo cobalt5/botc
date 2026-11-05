@@ -1,0 +1,22 @@
+Constrain Sober
+===============
+
+PROBLEM
+Nothing in situations.md constrains Sober(A, t). Every claim row has the form
+    Sober(A, ...) and Align(A, Good, ...) -> ...
+so in every world a claim can be switched off by making its player not
+sober. On their own, the claims rule out no worlds (see "With the current
+rules only" in example.md).
+
+CHANGE (situations.md)
+Add a predicate for poisoning (or reuse Chose) and an invariant along the
+lines of:
+    Sober(A, (t, k)) <-> not Role(A, Drunk, (t, k))
+                         and not Poisoned(A, (t, k))
+    Poisoned(A, (t, k)) for k after the Poisoner acts on night t, when a
+    sober Poisoner X has Chose(X, A, (t, k_Poisoner)), lasting until the
+    Poisoner acts again (or dies).
+List every cause of drunkenness and poisoning on the script, since the
+"<->" means a player is sober unless one of them applies. On Trouble
+Brewing: the Drunk and the Poisoner. On other scripts, more roles cause
+this (e.g. Sailor, Innkeeper, Courtier, No Dashii, Vortox).

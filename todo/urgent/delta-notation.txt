@@ -1,0 +1,14 @@
+Define the notation used by the count invariants
+================================================
+
+PROBLEM
+The Structural Invariants "Modifiers preserve player count", "Setup type
+counts" and "Base counts sum to the player count" use delta(R, G) and the
+set G-set, but situations.md never defines either.
+
+CHANGE (situations.md, Structural Invariants intro)
+Add after the "Let T, O, M, D ..." line:
+    Let $\delta(R, G)$ denote the unique $d$ such that $\text{Mod}(R, G, d)$,
+    and $\mathcal{G} = \{\text{Townsfolk}, \text{Outsider}, \text{Minion}, \text{Demon}\}$.
+"One modifier per role and type" and "Modifiers default to zero" together
+guarantee that d exists and is unique.

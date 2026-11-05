@@ -1,0 +1,15 @@
+Add Setup Player Count rows for 6 to 15 players
+===============================================
+
+PROBLEM
+Setup Player Counts only has the 5-player row. The rows for other player
+counts were removed when the num_* variables were replaced by BaseCount.
+
+CHANGE (situations.md, Setup Player Counts)
+Add one row per player count, in the same format as the 5-player row:
+    |There are N players|$\text{PlayerCount}(N) \land \text{BaseCount}(\text{Townsfolk}, T)\land \text{BaseCount}(\text{Outsider}, O)\land \text{BaseCount}(\text{Minion}, M)\land \text{BaseCount}(\text{Demon}, D)$|
+
+Base counts (T / O / M / D):
+     6: 3/1/1/1     7: 5/0/1/1     8: 5/1/1/1     9: 5/2/1/1
+    10: 7/0/2/1    11: 7/1/2/1    12: 7/2/2/1
+    13: 9/0/3/1    14: 9/1/3/1    15: 9/2/3/1

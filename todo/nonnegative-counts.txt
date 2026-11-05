@@ -1,0 +1,25 @@
+Fill in or remove the "nonnegative group sizes" invariant
+=========================================================
+
+PROBLEM
+situations.md has the row "There must be nonnegative group sizes at all
+times" with an empty statement.
+
+A Count is never negative. So if a modifier choice would make a setup total
+negative, "Setup type counts" already rules that world out. That is correct
+for choices the Storyteller makes (Godfather -1 when there are no Outsiders
+is not a legal setup).
+
+It is wrong for modifiers that are not a choice. Vigormortis at 5 players
+gives 0 - 1 = -1 Outsiders, and the real rule is that the count stays at 0.
+The current rules would rule that setup out instead.
+
+CHANGE (situations.md, Structural Invariants), pick one:
+  a) Clamp in "Setup type counts":
+         Count = max(0, b + sum over R of delta(R, G))
+     The Townsfolk count then follows from "Base counts sum to the player
+     count". Check that "Modifiers preserve player count" still holds once
+     a value is clamped (it won't as written: the clamped type loses
+     players while the other type still gains them).
+  b) Delete the row and add a note that Trouble Brewing never needs it
+     (5 players with a Baron gives T=1, O=2).
