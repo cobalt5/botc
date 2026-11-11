@@ -1,0 +1,3 @@
+1. Vortox requires the creation of another creation besides Sober() and Healthy().
+2. Check if our model works if a player is good on the final day, but at some point they were Evil
+2. a. Maybe instead of being Good on that day, we do something like if they are Good on the final day, we would trust them?
